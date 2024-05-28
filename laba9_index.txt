@@ -1,0 +1,68 @@
+//підключити експортовані об'єкти user.js 
+/*const Obj = require ('./user.js'); 
+console.log (Obj.user);
+Obj.sayHello(); 
+*/
+/*const os = require('os');   //підключення модуля роботи з os 
+console.log(os.platform()); //платформа
+console.log(os.arch());     //архітектура 
+console.log(os.cpus());     //інформація про ЦПУ
+console.log(os.freemem());  //вільна пам'ять 
+console.log(os.totalmem()); //скільки пам'яті
+console.log(os.homedir());  //коренева директорія
+console.log(os.uptime());   //час роботи системи
+*/
+/*const os = require('os');
+const path = require('path');
+console.log(`Роздільник системи - ${path.sep}`); 
+let homedir = os.homedir();
+console.log(`Домашня директорія - ${homedir}`); 
+console.log (`Шлях директорії складається з частин - ${path.parse(homedir)}`);
+console.log ('Файл з розширенням - ' + path.basename('/foo/bar/baz/asdf/quux.html'));
+console.log ('Файл без розширення - ' + path.basename('/foo/bar/baz/asdf/quux.html','.html')); 
+console.log ('Розділювач шляхів - ' + path.delimiter); 
+console.log (path.dirname('/foo/bar/baz/asdf/quux')); 
+console.log ('Розширення - ' + path.extname('index.html'));
+console.log (path.join(homedir,'f1','sf1','file.txt'));
+console.log(path.resolve());
+console.log(path.resolve(homedir, '..',  'newuser'));
+console.log(homedir.split(path.sep)); 
+*/
+/*const fs = require('fs');
+fs.writeFileSync('file1.txt', 'Цей текст запишеться у файл\n', 'utf8');
+fs.appendFileSync('file1.txt', 'Цей текст добавила в файл програма Кальмуцького Дмитрія\n', 'utf8');
+console.log (fs.readdirSync('./', 'utf8'));
+fs.copyFileSync('file1.txt', 'destination.txt'); 
+try {
+  const content = fs.readFileSync('file1.txt', 'utf8');
+  console.log(content); 
+} catch (e) { console.log(e)}
+try {
+  const content = fs.readFileSync('file1.txt');
+  console.log(content); 
+} catch (e) { console.log(e)}
+fs.readFile('file1.txt', 'utf8', (err, data) => {
+  if (err) throw err
+  console.log(data);
+})
+*/
+const http = require('http');
+const fs = require('fs');
+const options = {
+  hostname: 'www.example.org',
+  port: 80, path: '/',
+  method: 'GET', headers: {}
+};
+const req = http.request(options, (res) => {
+  console.log(`STATUS: ${res.statusCode}`);
+  console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+  res.setEncoding('utf8');
+  res.on('data', (chunk) => {   
+    fs.writeFileSync('example.html', chunk, 'utf8');
+    //console.log(`BODY: ${chunk}`);
+  });
+});
+req.on('error', (e) => { 
+  console.error(`problem with request: ${e.message}`);
+});
+req.end();
